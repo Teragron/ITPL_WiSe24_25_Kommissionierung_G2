@@ -231,7 +231,7 @@ void SimulationsGUI::starteSimulation() {
 
     // Erzeugt ein Diagramm der Ergebnisse und speichert es als PNG
     bool success;
-    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                                            //[10]
+    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                                                    //[10]
     RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							                        //[10]
 
     std::vector<double>* tagePtr = new std::vector<double>(tage);
@@ -254,7 +254,7 @@ void SimulationsGUI::starteSimulation() {
 
 
     if (success) {
-        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                    //[10]
+        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                        //[10]
         WriteToFile(pngdata, "mitarbeiterbedarf.png");					                                                //[10]
         DeleteImage(imageReference->image);						                                                //[10]
 
