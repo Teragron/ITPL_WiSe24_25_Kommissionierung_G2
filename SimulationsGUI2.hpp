@@ -10,7 +10,7 @@
 class SimulationsGUI {
 private:
     sf::RenderWindow window; 												                    //[6]
-    tgui::GuiSFML gui;															     //[11]
+    tgui::GuiSFML gui;															    //[11]
     bool saisonaleEinfluesse;
     double mittelwert;
     double standardabweichung;
