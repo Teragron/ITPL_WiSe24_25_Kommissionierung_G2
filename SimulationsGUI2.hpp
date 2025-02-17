@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>													            //[7]
-#include <TGUI/TGUI.hpp>            							                                //[11]
+#include <TGUI/TGUI.hpp>            							                                                //[11]
 #include "simulation2.hpp"
 #include <sstream>
 
