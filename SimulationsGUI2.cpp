@@ -1,6 +1,6 @@
 #include "SimulationsGUI2.hpp"
 #include <future>					                                                                                        //[3]
-#include "pbPlots.hpp"				                                                                                              //[10]
+#include "pbPlots.hpp"				                                                                                                //[10]
 #include "supportLib.hpp"				                                                                                        //[10]
 #include <fstream>					                                                                                    //[3]
 
