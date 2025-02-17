@@ -246,17 +246,17 @@ void SimulationsGUI::starteSimulation() {
 
     //Ausgabe vom Mittelwert und von der Standardabweicung sollen nur 2 Nachkommastellen haben
     std::stringstream stream_mean;
-    stream_mean << std::fixed << std::setprecision(2) << mittelwert;			//[3]
+    stream_mean << std::fixed << std::setprecision(2) << mittelwert;			                            //[3]
     std::stringstream stream_SD;
-    stream_SD << std::fixed << std::setprecision(2) << standardabweichung;		//[3]
+    stream_SD << std::fixed << std::setprecision(2) << standardabweichung;		                            //[3]
 
 
 
 
     if (success) {
-        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	//[10]
-        WriteToFile(pngdata, "mitarbeiterbedarf.png");					//[10]
-        DeleteImage(imageReference->image);						//[10]
+        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                            //[10]
+        WriteToFile(pngdata, "mitarbeiterbedarf.png");					                            //[10]
+        DeleteImage(imageReference->image);						                            //[10]
 
         logLine("\nGraph wurde als 'mitarbeiterbedarf.png' gespeichert.");
         logLine("Protokoll wurde als 'Protokoll.txt' gespeichert.");
