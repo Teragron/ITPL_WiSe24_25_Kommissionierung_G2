@@ -7,7 +7,7 @@
 
 // Konstruktor für das GUI-Fenster zur Simulationseinstellung
 SimulationsGUI::SimulationsGUI()
-    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			//[6]
+    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			    //[6]
     , gui(window)
     , saisonaleEinfluesse(false)
     , mittelwert(0)
@@ -23,7 +23,7 @@ SimulationsGUI::SimulationsGUI()
 // Validiert den Mittelwert aus der Eingabe
 void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
     try {
-        double wert = std::stod(mean_Edit->getText().toStdString());		                                                        //[3]
+        double wert = std::stod(mean_Edit->getText().toStdString());		                                                                    //[3]
         // Prüft, ob der Wert im zulässigen Bereich liegt
         if (wert >= 1 && wert <= 3000) {
             mittelwert = wert;
