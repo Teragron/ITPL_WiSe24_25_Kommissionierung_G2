@@ -238,7 +238,7 @@ void SimulationsGUI::starteSimulation() {
     std::vector<double>* mitarbeiterPtr = new std::vector<double>(mitarbeiter);
 
     //Funktion zur Erstellung des Graphens
-    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    										                    //[10]
+    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    										                                //[10]
 
 
 
