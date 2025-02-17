@@ -1,5 +1,5 @@
 #include "simulation2.hpp"
-#include <algorithm>									                                                                  //[1]
+#include <algorithm>									                                                       //[1]
 #include <iostream>
 
 
@@ -17,9 +17,9 @@ Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
 
 
 {
-    auto& rng = RandomGenerator::holeZufallsgenerator();					                                              //[1]
+    auto& rng = RandomGenerator::holeZufallsgenerator();					                                                      //[1]
 
-    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));           //[1], [3]
+    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                   //[1], [3]
     // Berechne tagesAuftraege basierend auf einer normalverteilten Zufallszahl						       
 
     tagesAuftraege += verbleibendeAuftraege;    // Füge verbleibende Aufträge hinzu
