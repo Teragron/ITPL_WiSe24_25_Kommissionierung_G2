@@ -203,10 +203,10 @@ void SimulationsGUI::starteSimulation() {
 
         double adjustedMean = mittelwert;                                                       // Mean = Mittelwert, kürzer auf Englisch; AdjustMean = Angepasster Mittelwert
         if (saisonaleEinfluesse) {
-            float sommerEffekt = std::sin(frequenz * (tag - 45));			                                        //[3]
+            float sommerEffekt = std::sin(frequenz * (tag - 45));			                                                    //[3]
             float weihnachtsEffekt = 0.5f * std::sin(frequenz * (tag + 100));
             adjustedMean = mittelwert + baseAmplitude * (sommerEffekt + weihnachtsEffekt);
-            adjustedMean = std::max(mittelwert * 0.2, adjustedMean);		                                                //[3]
+            adjustedMean = std::max(mittelwert * 0.2, adjustedMean);		                                                            //[3]
         }
 
         // Simulation eines einzelnen Tages und Berechnung des Mitarbeiterbedarfs
