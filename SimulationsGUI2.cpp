@@ -7,7 +7,7 @@
 
 // Konstruktor für das GUI-Fenster zur Simulationseinstellung
 SimulationsGUI::SimulationsGUI()
-    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			                    //[6]
+    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			                        //[6]
     , gui(window)
     , saisonaleEinfluesse(false)
     , mittelwert(0)
