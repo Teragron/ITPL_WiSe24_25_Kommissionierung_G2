@@ -133,7 +133,7 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
     // Standardabweichungs-Eingabefeld und Label
     auto SD_label = tgui::Label::create("Standardabweichung der Auftraege: [1-Mittelwert]");
-    SD_label->setPosition(10, 120);						                                                                //[7]
+    SD_label->setPosition(10, 120);						                                                             //[7]
     gui.add(SD_label);
 
     auto SD_edit = tgui::EditBox::create();
@@ -206,7 +206,7 @@ void SimulationsGUI::starteSimulation() {
             float sommerEffekt = std::sin(frequenz * (tag - 45));			                                        //[3]
             float weihnachtsEffekt = 0.5f * std::sin(frequenz * (tag + 100));
             adjustedMean = mittelwert + baseAmplitude * (sommerEffekt + weihnachtsEffekt);
-            adjustedMean = std::max(mittelwert * 0.2, adjustedMean);		                                            //[3]
+            adjustedMean = std::max(mittelwert * 0.2, adjustedMean);		                                                //[3]
         }
 
         // Simulation eines einzelnen Tages und Berechnung des Mitarbeiterbedarfs
@@ -231,7 +231,7 @@ void SimulationsGUI::starteSimulation() {
 
     // Erzeugt ein Diagramm der Ergebnisse und speichert es als PNG
     bool success;
-    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                            //[10]
+    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                                            //[10]
     RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							                        //[10]
 
     std::vector<double>* tagePtr = new std::vector<double>(tage);
