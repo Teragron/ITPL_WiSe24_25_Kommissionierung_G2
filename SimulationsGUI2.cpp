@@ -254,7 +254,7 @@ void SimulationsGUI::starteSimulation() {
 
 
     if (success) {
-        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                //[10]
+        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                    //[10]
         WriteToFile(pngdata, "mitarbeiterbedarf.png");					                                                //[10]
         DeleteImage(imageReference->image);						                                                //[10]
 
