@@ -100,7 +100,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
 
 
     // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird
-    auto simulationFuture = std::async(std::launch::async, [this]() {		                    //[3]
+    auto simulationFuture = std::async(std::launch::async, [this]() {		                                            //[3]
         starteSimulation();
         });
 
@@ -126,14 +126,14 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
     mean_Edit->setPosition(10, 80);
     mean_Edit->setSize(200, 30);
     mean_Edit->setInputValidator(tgui::EditBox::Validator::Float);
-    mean_Edit->onTextChange([this, mean_Edit]() {				                                        //[12]
+    mean_Edit->onTextChange([this, mean_Edit]() {				                                                            //[12]
         validiereMittelwert(mean_Edit);
         });
     gui.add(mean_Edit);
 
     // Standardabweichungs-Eingabefeld und Label
     auto SD_label = tgui::Label::create("Standardabweichung der Auftraege: [1-Mittelwert]");
-    SD_label->setPosition(10, 120);						                                        //[7]
+    SD_label->setPosition(10, 120);						                                                        //[7]
     gui.add(SD_label);
 
     auto SD_edit = tgui::EditBox::create();
@@ -161,8 +161,8 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
     auto neinButton = tgui::Button::create("Nein");
     neinButton->setPosition(110, 220);
-    neinButton->setSize(90, 30);							                                    //[6]
-    neinButton->onClick([this]() {							                                        //[8]
+    neinButton->setSize(90, 30);							                                                //[6]
+    neinButton->onClick([this]() {							                                                //[8]
         saisonaleEinfluesse = false;
         starteSimulationImHintergrund();
         });
