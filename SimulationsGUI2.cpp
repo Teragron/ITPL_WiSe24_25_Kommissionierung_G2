@@ -231,14 +231,14 @@ void SimulationsGUI::starteSimulation() {
 
     // Erzeugt ein Diagramm der Ergebnisse und speichert es als PNG
     bool success;
-    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	//[10]
-    RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							//[10]
+    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                    //[10]
+    RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							                        //[10]
 
     std::vector<double>* tagePtr = new std::vector<double>(tage);
     std::vector<double>* mitarbeiterPtr = new std::vector<double>(mitarbeiter);
 
     //Funktion zur Erstellung des Graphens
-    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    										//[10]
+    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    										                    //[10]
 
 
 
