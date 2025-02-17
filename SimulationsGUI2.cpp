@@ -283,14 +283,14 @@ void SimulationsGUI::starteSimulation() {
 
 
 
-    std::ofstream protokoll("Protokoll.txt");						            //[1]
+    std::ofstream protokoll("Protokoll.txt");						                            //[1]
     protokoll << logStream.str();
     protokoll.close();
 
 
     delete tagePtr;
     delete mitarbeiterPtr;
-    FreeAllocations();									            //[10]
+    FreeAllocations();									                                //[10]
 }
 
 
@@ -299,7 +299,7 @@ void SimulationsGUI::starteSimulation() {
 //GUI-Schleife
 void SimulationsGUI::starteSimulationsGUI() {
     while (window.isOpen()) {
-        sf::Event event;									                    //[7]
+        sf::Event event;									                                        //[7]
         while (window.pollEvent(event)) {
             gui.handleEvent(event);
 
@@ -308,8 +308,8 @@ void SimulationsGUI::starteSimulationsGUI() {
             }
         }
 
-        window.clear(sf::Color(240, 240, 240));					                    //[9]
+        window.clear(sf::Color(240, 240, 240));					                                    //[9]
         gui.draw();
-        window.display();								                        //[9]
+        window.display();								                                            //[9]
     }
 }
