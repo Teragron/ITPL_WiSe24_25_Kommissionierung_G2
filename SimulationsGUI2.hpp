@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>													            //[7]
-#include <TGUI/TGUI.hpp>            							                                                //[11]
+#include <TGUI/TGUI.hpp>            							                                                    //[11]
 #include "simulation2.hpp"
 #include <sstream>
 
@@ -10,7 +10,7 @@
 class SimulationsGUI {
 private:
     sf::RenderWindow window; 												                    //[6]
-    tgui::GuiSFML gui;															        //[11]
+    tgui::GuiSFML gui;															     //[11]
     bool saisonaleEinfluesse;
     double mittelwert;
     double standardabweichung;
