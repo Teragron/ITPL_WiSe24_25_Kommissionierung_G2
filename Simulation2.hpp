@@ -1,10 +1,10 @@
-#pragma once								                            //[3]
-#include <vector> 								                        //[3]
-#include <random>								                        //[3]
-#include <memory>								                        //[3]
-#include <array>								                        //[3]
-#include <chrono>								                        //[3]
-#include <sstream>								                        //[3]
+#pragma once								                                           //[3]
+#include <vector> 								                                                //[3]
+#include <random>								                                                //[3]
+#include <memory>								                                                //[3]
+#include <array>								                                                //[3]
+#include <chrono>								                                                //[3]
+#include <sstream>								                                                //[3]
 
 // Struktur zur Speicherung der Zeitkomponenten für die Bearbeitung eines Artikels
 struct Zeitkomponenten {
