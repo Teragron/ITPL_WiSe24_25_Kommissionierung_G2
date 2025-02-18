@@ -20,5 +20,5 @@ Dieses Projekt simuliert die Bearbeitung von Aufträgen und berechnet den Person
 ### 1. Repository klonen
 
 ```bash
-git clone https://github.com/teragron/programm_test.git
-cd programm_test
+git clone https://github.com/teragron/ITPL_WiSe24_25_Kommissionierung_G2.git
+cd ITPL_WiSe24_25_Kommissionierung_G2
