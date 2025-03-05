@@ -91,7 +91,7 @@ void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgu
 
 
 
-// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind
+// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind                                                  // [Julian]
 void SimulationsGUI::starteSimulationImHintergrund() {
     if (!alleEingabenValid) {
         std::cerr << "Fehler: Ungueltige Eingaben!" << std::endl;
@@ -99,7 +99,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
     }
 
 
-    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird
+    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird                                                 // [Julian]
     auto simulationFuture = std::async(std::launch::async, [this]() {		                                                            //[3]
         starteSimulation();
         });
