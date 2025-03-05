@@ -1,13 +1,13 @@
 #include "SimulationsGUI2.hpp"
-#include <future>					                                                                                        //[3]
+#include <future>					                                                                                                //[3]
 #include "pbPlots.hpp"				                                                                                                //[10]
-#include "supportLib.hpp"				                                                                                        //[10]
-#include <fstream>					                                                                                        //[3]
+#include "supportLib.hpp"				                                                                                            //[10]
+#include <fstream>					                                                                                                //[3]
 
 
 // Konstruktor für das GUI-Fenster zur Simulationseinstellung
 SimulationsGUI::SimulationsGUI()
-    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			                        //[6]
+    : window(sf::VideoMode(400, 300), "Simulationsparameter", sf::Style::Titlebar | sf::Style::Close)			                    //[6]
     , gui(window)
     , saisonaleEinfluesse(false)
     , mittelwert(0)
@@ -20,10 +20,10 @@ SimulationsGUI::SimulationsGUI()
 
 
 
-    // Validiert den Mittelwert aus der Eingabe                                            [Deniz] [Can]
+    // Validiert den Mittelwert aus der Eingabe                                                                                     [Deniz] [Can]
 void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
     try {
-        double wert = std::stod(mean_Edit->getText().toStdString());		                                                                //[3]
+        double wert = std::stod(mean_Edit->getText().toStdString());		                                                        //[3]
         // Prüft, ob der Wert im zulässigen Bereich liegt
         if (wert >= 1 && wert <= 3000) {
             mittelwert = wert;
@@ -59,7 +59,7 @@ void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
 
 
 
-// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert                                 [Deniz] [Can]
+// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert                                                      [Deniz] [Can]
 void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgui::EditBox::Ptr mean_Edit) {
     try {
         double wert = std::stod(SD_edit->getText().toStdString());
@@ -91,7 +91,7 @@ void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgu
 
 
 
-// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind                                                  [Julian]
+// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind                                                        [Julian]
 void SimulationsGUI::starteSimulationImHintergrund() {
     if (!alleEingabenValid) {
         std::cerr << "Fehler: Ungueltige Eingaben!" << std::endl;
@@ -99,8 +99,8 @@ void SimulationsGUI::starteSimulationImHintergrund() {
     }
 
 
-    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird                                                 [Julian]
-    auto simulationFuture = std::async(std::launch::async, [this]() {		                                                            //[3]
+    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird                                                        [Julian]
+    auto simulationFuture = std::async(std::launch::async, [this]() {		                                                           //[3]
         starteSimulation();
         });
 
@@ -110,7 +110,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
 
 
 
-// Initialisiert alle GUI-Elemente                                                                                 [Deniz] [Can]
+// Initialisiert alle GUI-Elemente                                                                                                     [Deniz] [Can]
 void SimulationsGUI::initialisiereBenutzerInterface() {
     auto titel = tgui::Label::create("Simulationsparameter");
     titel->setPosition(10, 10);
@@ -126,14 +126,14 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
     mean_Edit->setPosition(10, 80);
     mean_Edit->setSize(200, 30);
     mean_Edit->setInputValidator(tgui::EditBox::Validator::Float);
-    mean_Edit->onTextChange([this, mean_Edit]() {				                                                            //[12]
+    mean_Edit->onTextChange([this, mean_Edit]() {				                                                                        //[12]
         validiereMittelwert(mean_Edit);
         });
     gui.add(mean_Edit);
 
     // Standardabweichungs-Eingabefeld und Label
     auto SD_label = tgui::Label::create("Standardabweichung der Auftraege: [1-Mittelwert]");
-    SD_label->setPosition(10, 120);						                                                             //[7]
+    SD_label->setPosition(10, 120);						                                                                                 //[7]
     gui.add(SD_label);
 
     auto SD_edit = tgui::EditBox::create();
@@ -161,8 +161,8 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
     auto neinButton = tgui::Button::create("Nein");
     neinButton->setPosition(110, 220);
-    neinButton->setSize(90, 30);							                                                //[6]
-    neinButton->onClick([this]() {							                                                //[8]
+    neinButton->setSize(90, 30);							                                                                            //[6]
+    neinButton->onClick([this]() {							                                                                            //[8]
         saisonaleEinfluesse = false;
         starteSimulationImHintergrund();
         });
@@ -173,7 +173,7 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
 
 
-// Überprüft die Gesamtvalidität der Simulationsparameter                         [Deniz] [Can]
+// Überprüft die Gesamtvalidität der Simulationsparameter                                                                               [Deniz] [Can]
 void SimulationsGUI::validiereSimulationsParameter() {
     bool mittelwertValid = (mittelwert >= 1 && mittelwert <= 3000);
     bool standardabweichungValid = (standardabweichung >= 1 && standardabweichung < mittelwert);
@@ -184,7 +184,7 @@ void SimulationsGUI::validiereSimulationsParameter() {
 
 
 
-// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung                                          [Julian]
+// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung                                                                  [Julian]
 void SimulationsGUI::starteSimulation() {
 
 
@@ -203,7 +203,7 @@ void SimulationsGUI::starteSimulation() {
 
         double adjustedMean = mittelwert;                                                       // Mean = Mittelwert, kürzer auf Englisch; AdjustMean = Angepasster Mittelwert
         if (saisonaleEinfluesse) {
-            float sommerEffekt = std::sin(frequenz * (tag - 45));			                                                    //[3]
+            float sommerEffekt = std::sin(frequenz * (tag - 45));			                                                            //[3]
             float weihnachtsEffekt = 0.5f * std::sin(frequenz * (tag + 100));
             adjustedMean = mittelwert + baseAmplitude * (sommerEffekt + weihnachtsEffekt);
             adjustedMean = std::max(mittelwert * 0.2, adjustedMean);		                                                            //[3]
@@ -231,14 +231,14 @@ void SimulationsGUI::starteSimulation() {
 
     // Erzeugt ein Diagramm der Ergebnisse und speichert es als PNG
     bool success;
-    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                                                    //[10]
-    RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							                        //[10]
+    StringReference* errorMessage = CreateStringReferenceLengthValue(0, L' ');	                                                        //[10]
+    RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();							                            //[10]
 
     std::vector<double>* tagePtr = new std::vector<double>(tage);
     std::vector<double>* mitarbeiterPtr = new std::vector<double>(mitarbeiter);
 
     //Funktion zur Erstellung des Graphens
-    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    										                                //[10]
+    success = DrawScatterPlot(imageReference, 1200, 800, tagePtr, mitarbeiterPtr, errorMessage);    									//[10]
 
 
 
@@ -246,17 +246,17 @@ void SimulationsGUI::starteSimulation() {
 
     //Ausgabe vom Mittelwert und von der Standardabweicung sollen nur 2 Nachkommastellen haben
     std::stringstream stream_mean;
-    stream_mean << std::fixed << std::setprecision(2) << mittelwert;			                                                //[3]
+    stream_mean << std::fixed << std::setprecision(2) << mittelwert;			                                                        //[3]
     std::stringstream stream_SD;
-    stream_SD << std::fixed << std::setprecision(2) << standardabweichung;		                                                //[3]
+    stream_SD << std::fixed << std::setprecision(2) << standardabweichung;		                                                        //[3]
 
 
 
-                                                                                                                                                //[Julian]
+                                                                                                                                        //[Julian]
     if (success) {
-        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                        //[10]
-        WriteToFile(pngdata, "mitarbeiterbedarf.png");					                                                //[10]
-        DeleteImage(imageReference->image);						                                                //[10]
+        std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                            //[10]
+        WriteToFile(pngdata, "mitarbeiterbedarf.png");					                                                                //[10]
+        DeleteImage(imageReference->image);						                                                                        //[10]
 
         logLine("\nGraph wurde als 'mitarbeiterbedarf.png' gespeichert.");
         logLine("Protokoll wurde als 'Protokoll.txt' gespeichert.");
@@ -271,7 +271,7 @@ void SimulationsGUI::starteSimulation() {
             logLine("\nDie Simulation erfolgte ohne Seasionale Einfluessen");
         }
 
-        system("start mitarbeiterbedarf.png");  //Mitarbeiterbedarf.png / Graph wird direkt geöffnet											//[4]
+        system("start mitarbeiterbedarf.png");  //Mitarbeiterbedarf.png / Graph wird direkt geöffnet									//[4]
         //system("xdg-open mitarbeiterbedarf.png");  //Für Linux-Systeme
     }
     else {
@@ -283,14 +283,14 @@ void SimulationsGUI::starteSimulation() {
 
 
     
-    std::ofstream protokoll("Protokoll.txt");						                                             //[1]
+    std::ofstream protokoll("Protokoll.txt");						                                                                    //[1]
     protokoll << logStream.str();
     protokoll.close();
 
 
     delete tagePtr;
     delete mitarbeiterPtr;
-    FreeAllocations();									                                            //[10]
+    FreeAllocations();									                                                                                //[10]
 }
 
 
@@ -299,7 +299,7 @@ void SimulationsGUI::starteSimulation() {
 //GUI-Schleife
 void SimulationsGUI::starteSimulationsGUI() {
     while (window.isOpen()) {
-        sf::Event event;									                                     //[7]
+        sf::Event event;									                                                                            //[7]
         while (window.pollEvent(event)) {
             gui.handleEvent(event);
 
@@ -308,8 +308,8 @@ void SimulationsGUI::starteSimulationsGUI() {
             }
         }
 
-        window.clear(sf::Color(240, 240, 240));					                                                    //[9]
+        window.clear(sf::Color(240, 240, 240));					                                                                        //[9]
         gui.draw();
-        window.display();								                                            //[9]
+        window.display();								                                                                                //[9]
     }
 }
