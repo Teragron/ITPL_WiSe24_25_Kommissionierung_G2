@@ -20,7 +20,7 @@ SimulationsGUI::SimulationsGUI()
 
 
 
-    // Validiert den Mittelwert aus der Eingabe                                            //[Deniz] [Can]
+    // Validiert den Mittelwert aus der Eingabe                                            [Deniz] [Can]
 void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
     try {
         double wert = std::stod(mean_Edit->getText().toStdString());		                                                                //[3]
@@ -59,7 +59,7 @@ void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
 
 
 
-// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert                                 //[Deniz] [Can]
+// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert                                 [Deniz] [Can]
 void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgui::EditBox::Ptr mean_Edit) {
     try {
         double wert = std::stod(SD_edit->getText().toStdString());
@@ -91,7 +91,7 @@ void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgu
 
 
 
-// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind                                                  // [Julian]
+// Startet die Simulation in einem separaten Thread, wenn Eingaben gültig sind                                                  [Julian]
 void SimulationsGUI::starteSimulationImHintergrund() {
     if (!alleEingabenValid) {
         std::cerr << "Fehler: Ungueltige Eingaben!" << std::endl;
@@ -99,7 +99,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
     }
 
 
-    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird                                                 // [Julian]
+    // Führt die Simulation asynchron aus, sodass das GUI nicht blockiert wird                                                 [Julian]
     auto simulationFuture = std::async(std::launch::async, [this]() {		                                                            //[3]
         starteSimulation();
         });
@@ -110,7 +110,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
 
 
 
-// Initialisiert alle GUI-Elemente                                                                                 //[Deniz] [Can]
+// Initialisiert alle GUI-Elemente                                                                                 [Deniz] [Can]
 void SimulationsGUI::initialisiereBenutzerInterface() {
     auto titel = tgui::Label::create("Simulationsparameter");
     titel->setPosition(10, 10);
@@ -173,7 +173,7 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
 
 
-// Überprüft die Gesamtvalidität der Simulationsparameter                         //[Deniz] [Can]
+// Überprüft die Gesamtvalidität der Simulationsparameter                         [Deniz] [Can]
 void SimulationsGUI::validiereSimulationsParameter() {
     bool mittelwertValid = (mittelwert >= 1 && mittelwert <= 3000);
     bool standardabweichungValid = (standardabweichung >= 1 && standardabweichung < mittelwert);
@@ -184,7 +184,7 @@ void SimulationsGUI::validiereSimulationsParameter() {
 
 
 
-// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung                                          //[Julian]
+// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung                                          [Julian]
 void SimulationsGUI::starteSimulation() {
 
 
