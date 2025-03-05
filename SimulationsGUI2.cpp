@@ -110,7 +110,7 @@ void SimulationsGUI::starteSimulationImHintergrund() {
 
 
 
-// Initialisiert alle GUI-Elemente
+// Initialisiert alle GUI-Elemente                                                                                 //[Deniz] [Can]
 void SimulationsGUI::initialisiereBenutzerInterface() {
     auto titel = tgui::Label::create("Simulationsparameter");
     titel->setPosition(10, 10);
@@ -252,7 +252,7 @@ void SimulationsGUI::starteSimulation() {
 
 
 
-
+                                                                                                                                                //[Julian]
     if (success) {
         std::vector<double>* pngdata = ConvertToPNG(imageReference->image);	                                                        //[10]
         WriteToFile(pngdata, "mitarbeiterbedarf.png");					                                                //[10]
@@ -282,7 +282,7 @@ void SimulationsGUI::starteSimulation() {
         std::to_string(static_cast<double>(gesamtMitarbeiterbedarf) / 365) + "\n\n\n\n\n");
 
 
-
+    
     std::ofstream protokoll("Protokoll.txt");						                                             //[1]
     protokoll << logStream.str();
     protokoll.close();
