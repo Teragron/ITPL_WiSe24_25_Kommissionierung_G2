@@ -1,9 +1,9 @@
 #include "simulation2.hpp"
-#include <algorithm>									                                                       //[1]
+#include <algorithm>									                                                                           //[1]
 #include <iostream>
 
 
-// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                   [Julian]
+// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                  [Julian]
 Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
     double meanProdukteProAuftrag, double SD_ProdukteProAuftrag,
     int verbleibendeAuftraege)
@@ -17,16 +17,16 @@ Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
 
 
 {
-    auto& rng = RandomGenerator::holeZufallsgenerator();					                                               //[1]
+    auto& rng = RandomGenerator::holeZufallsgenerator();					                                                       //[1]
 
-    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                                 //[1], [3]
+    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                     //[1], [3]
     // Berechne tagesAuftraege basierend auf einer normalverteilten Zufallszahl						       
 
     tagesAuftraege += verbleibendeAuftraege;    // Füge verbleibende Aufträge hinzu
 }
 
 
-// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                  [Julian] [Deniz]
+// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                                 [Julian] [Deniz]
 void Simulation::generiereAuftraege() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
     auftragsListe.clear();
@@ -43,7 +43,7 @@ void Simulation::generiereAuftraege() {
 
         // Artikel pro Auftrag generieren
         int artikelAnzahl = static_cast<int>(std::max(1.0, std::round(rng.erzeugeZufallswert(produkteDistribution))));
-        auftrag.artikel.reserve(artikelAnzahl); // Speicher für Artikel reservieren															//[3]
+        auftrag.artikel.reserve(artikelAnzahl); // Speicher für Artikel reservieren													   //[3]
 
         for (int j = 0; j < artikelAnzahl; ++j) {
             Artikel artikel;
@@ -51,15 +51,15 @@ void Simulation::generiereAuftraege() {
             artikel.zeiten = generiereZeitkomponenten();
             auftrag.artikel.push_back(std::move(artikel));
         }
-        auftragsListe.push_back(std::move(auftrag));																		//[1]
+        auftragsListe.push_back(std::move(auftrag));																		            //[1]
     }
 
     // Sortiere die Aufträge nach Bestellzeit
     std::sort(auftragsListe.begin(), auftragsListe.end(),
-        [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });														//[1]
+        [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });											    //[1]
 }
 
-// Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel                                             //[Can]
+// Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel                                                   //[Can]
 Zeitkomponenten Simulation::generiereZeitkomponenten() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
     Zeitkomponenten zeiten;
@@ -71,7 +71,7 @@ Zeitkomponenten Simulation::generiereZeitkomponenten() {
 }
 
 
-// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                         [Can]
+// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                                                               [Can]
 bool Simulation::istPausenzeit(double zeitpunkt) {
     for (const auto& pause : PAUSENZEITEN) {
         if (zeitpunkt >= pause.first && zeitpunkt < pause.second) {
@@ -81,7 +81,7 @@ bool Simulation::istPausenzeit(double zeitpunkt) {
     return false;
 }
 
-// Bearbeitet die Aufträge und berechnet die Gesamtbearbeitungszeit des Tages                                     [Julian] [Deniz]
+// Bearbeitet die Aufträge und berechnet die Gesamtbearbeitungszeit des Tages                                                          [Julian] [Deniz]
 int Simulation::bearbeiteAuftraege() {
     int totalBearbeitungszeit = 0;
     std::vector<Auftrag> verbleibend;
@@ -105,7 +105,7 @@ int Simulation::bearbeiteAuftraege() {
         }
         // Update auftragsListe mit verbleibenden Aufträgen
         auftragsListe = std::move(verbleibend);
-        verbleibend.clear();																					//[1]
+        verbleibend.clear();																					                          //[1]
         verbleibend.reserve(auftragsListe.size());
     }
 
@@ -114,7 +114,7 @@ int Simulation::bearbeiteAuftraege() {
 
 
 
-// Berechnet die benötigte Mitarbeiteranzahl basierend auf der Bearbeitungszeit                                             [Julian] [Deniz]
+// Berechnet die benötigte Mitarbeiteranzahl basierend auf der Bearbeitungszeit                                                         [Julian] [Deniz]
 int Simulation::berechneMitarbeiter(int totalBearbeitungszeit) {
     return (totalBearbeitungszeit + ARBEITSSEKUNDEN_PRO_MITARBEITER - 1) / ARBEITSSEKUNDEN_PRO_MITARBEITER;
 }
