@@ -20,7 +20,7 @@ SimulationsGUI::SimulationsGUI()
 
 
 
-// Validiert den Mittelwert aus der Eingabe
+    // Validiert den Mittelwert aus der Eingabe                                            //[Deniz] [Can]
 void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
     try {
         double wert = std::stod(mean_Edit->getText().toStdString());		                                                                //[3]
@@ -59,7 +59,7 @@ void SimulationsGUI::validiereMittelwert(tgui::EditBox::Ptr mean_Edit) {
 
 
 
-// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert
+// Validiert die Standardabweichung und überprüft die Beziehung zum Mittelwert                                 //[Deniz] [Can]
 void SimulationsGUI::validiereStandardabweichung(tgui::EditBox::Ptr SD_edit, tgui::EditBox::Ptr mean_Edit) {
     try {
         double wert = std::stod(SD_edit->getText().toStdString());
@@ -173,7 +173,7 @@ void SimulationsGUI::initialisiereBenutzerInterface() {
 
 
 
-// Überprüft die Gesamtvalidität der Simulationsparameter
+// Überprüft die Gesamtvalidität der Simulationsparameter                         //[Deniz] [Can]
 void SimulationsGUI::validiereSimulationsParameter() {
     bool mittelwertValid = (mittelwert >= 1 && mittelwert <= 3000);
     bool standardabweichungValid = (standardabweichung >= 1 && standardabweichung < mittelwert);
@@ -184,7 +184,7 @@ void SimulationsGUI::validiereSimulationsParameter() {
 
 
 
-// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung
+// Führt die Simulation durch, einschließlich der Ergebnisaufzeichnung                                          //[Julian]
 void SimulationsGUI::starteSimulation() {
 
 
