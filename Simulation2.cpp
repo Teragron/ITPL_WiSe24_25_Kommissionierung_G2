@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                   //[Julian]
+// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                   [Julian]
 Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
     double meanProdukteProAuftrag, double SD_ProdukteProAuftrag,
     int verbleibendeAuftraege)
@@ -26,7 +26,7 @@ Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
 }
 
 
-// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                  //[Julian] [Deniz]
+// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                  [Julian] [Deniz]
 void Simulation::generiereAuftraege() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
     auftragsListe.clear();
@@ -71,7 +71,7 @@ Zeitkomponenten Simulation::generiereZeitkomponenten() {
 }
 
 
-// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                         //[Can]
+// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                         [Can]
 bool Simulation::istPausenzeit(double zeitpunkt) {
     for (const auto& pause : PAUSENZEITEN) {
         if (zeitpunkt >= pause.first && zeitpunkt < pause.second) {
@@ -81,7 +81,7 @@ bool Simulation::istPausenzeit(double zeitpunkt) {
     return false;
 }
 
-// Bearbeitet die Aufträge und berechnet die Gesamtbearbeitungszeit des Tages                                     //[Julian] [Deniz]
+// Bearbeitet die Aufträge und berechnet die Gesamtbearbeitungszeit des Tages                                     [Julian] [Deniz]
 int Simulation::bearbeiteAuftraege() {
     int totalBearbeitungszeit = 0;
     std::vector<Auftrag> verbleibend;
@@ -114,7 +114,7 @@ int Simulation::bearbeiteAuftraege() {
 
 
 
-// Berechnet die benötigte Mitarbeiteranzahl basierend auf der Bearbeitungszeit                                             //[Julian] [Deniz]
+// Berechnet die benötigte Mitarbeiteranzahl basierend auf der Bearbeitungszeit                                             [Julian] [Deniz]
 int Simulation::berechneMitarbeiter(int totalBearbeitungszeit) {
     return (totalBearbeitungszeit + ARBEITSSEKUNDEN_PRO_MITARBEITER - 1) / ARBEITSSEKUNDEN_PRO_MITARBEITER;
 }
