@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge
+// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                   //[J]
 Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
     double meanProdukteProAuftrag, double SD_ProdukteProAuftrag,
     int verbleibendeAuftraege)
@@ -26,7 +26,7 @@ Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
 }
 
 
-// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten
+// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                  //[J]
 void Simulation::generiereAuftraege() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
     auftragsListe.clear();
@@ -59,7 +59,7 @@ void Simulation::generiereAuftraege() {
         [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });														//[1]
 }
 
-// Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel
+// Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel                                             //[C]
 Zeitkomponenten Simulation::generiereZeitkomponenten() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
     Zeitkomponenten zeiten;
@@ -71,7 +71,7 @@ Zeitkomponenten Simulation::generiereZeitkomponenten() {
 }
 
 
-// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt
+// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                         //[C]
 bool Simulation::istPausenzeit(double zeitpunkt) {
     for (const auto& pause : PAUSENZEITEN) {
         if (zeitpunkt >= pause.first && zeitpunkt < pause.second) {
