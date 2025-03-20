@@ -12,6 +12,11 @@ int main() {
     catch (...) {
         std::cerr << "Unbekannter Fehler aufgetreten!" << std::endl;
         return 1;
+
     }
+
+
+    std::cout << "\nDruecken Sie die Enter-Taste, um das Programm zu beenden..." << std::endl;
+    std::cin.get();
     return 0;
 }
