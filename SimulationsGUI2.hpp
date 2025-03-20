@@ -3,7 +3,7 @@
 #include <TGUI/TGUI.hpp>            							                                                    //[11]
 #include "simulation2.hpp"
 #include <sstream>
-
+#include <iostream>
 
 
 // Klasse SimulationsGUI für das GUI-Fenster zur Einstellung und Durchführung der Simulation
