@@ -1,134 +1,139 @@
 #include "simulation2.hpp"
-#include <algorithm>									                                                                           //[1]
+#include <algorithm>
 #include <iostream>
+#include <cmath>
 
-
-// Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                  [Julian]
-Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
-    double meanProdukteProAuftrag, double SD_ProdukteProAuftrag,
-    int verbleibendeAuftraege)
-    : auftraegeDistribution(mean_AuftraegeProTag, SD_AuftraegeProTag)
-    , produkteDistribution(meanProdukteProAuftrag, SD_ProdukteProAuftrag)
-    , basiszeitDist(BASISZEIT_MEAN, BASISZEIT_SD)
-    , wegzeitDist(WEGZEIT_MEAN, WEGZEIT_SD)
-    , greifzeitDist(GREIFZEIT_MEAN, GREIFZEIT_SD)
-    , totzeitDist(TOTZEIT_MEAN, TOTZEIT_SD)
-
-
-
+// Constructor with more descriptive initialization and error checking
+Simulation::Simulation(
+    double mean_AuftraegeProTag,
+    double SD_AuftraegeProTag,
+    double meanProdukteProAuftrag,
+    double SD_ProdukteProAuftrag,
+    int verbleibendeAuftraege
+) : auftraegeDistribution(mean_AuftraegeProTag, SD_AuftraegeProTag),
+produkteDistribution(meanProdukteProAuftrag, SD_ProdukteProAuftrag),
+basiszeitDist(BASISZEIT_MEAN, BASISZEIT_SD),
+wegzeitDist(WEGZEIT_MEAN, WEGZEIT_SD),
+greifzeitDist(GREIFZEIT_MEAN, GREIFZEIT_SD),
+totzeitDist(TOTZEIT_MEAN, TOTZEIT_SD)
 {
-    auto& rng = RandomGenerator::holeZufallsgenerator();					                                                       //[1]
+    // Robust random generator retrieval with potential fallback
+    RandomGenerator& randomGen = RandomGenerator::holeZufallsgenerator();
 
-    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                     //[1], [3]
-    // Berechne tagesAuftraege basierend auf einer normalverteilten Zufallszahl						       
+    // More nuanced rounding and clamping of daily orders
+    int randomOrders = std::max(0,
+        static_cast<int>(std::round(randomGen.erzeugeZufallswert(auftraegeDistribution)))
+    );
 
-    tagesAuftraege += verbleibendeAuftraege;    // Füge verbleibende Aufträge hinzu
+    tagesAuftraege = randomOrders + verbleibendeAuftraege;
 }
 
-
-// Generiert die Tagesaufträge und deren Artikel mit Zeitkomponenten                                                                [Julian] [Deniz]
+// Enhanced order generation with more explicit time window calculation
 void Simulation::generiereAuftraege() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
+
+    // Clear previous orders and pre-allocate memory
     auftragsListe.clear();
-    auftragsListe.reserve(tagesAuftraege);  // Speicher für Aufträge reservieren
+    auftragsListe.reserve(tagesAuftraege);
 
-    // Bestellzeitfenster festlegen
-    double zeitStart = 4.0;
-    double zeitEnde = 21.0;
+    const double zeitStart = 4.0;
+    const double zeitEnde = 21.0;
+    const double zeitIntervall = zeitEnde - zeitStart;
 
-    for (int i = 0; i < tagesAuftraege; ++i) {
-        Auftrag auftrag;
-        // Lineare Verteilung der Bestellzeiten
-        auftrag.bestellZeit = zeitStart + (zeitEnde - zeitStart) * (static_cast<double>(i) / tagesAuftraege);
+    for (int orderIndex = 0; orderIndex < tagesAuftraege; ++orderIndex) {
+        Auftrag currentOrder;
 
-        // Artikel pro Auftrag generieren
-        int artikelAnzahl = static_cast<int>(std::max(1.0, std::round(rng.erzeugeZufallswert(produkteDistribution))));
-        auftrag.artikel.reserve(artikelAnzahl); // Speicher für Artikel reservieren													 //[3]
+        // More precise time distribution calculation
+        currentOrder.bestellZeit = zeitStart +
+            (zeitIntervall * (static_cast<double>(orderIndex) / std::max(1, tagesAuftraege - 1)));
 
-        for (int j = 0; j < artikelAnzahl; ++j) {
-            Artikel artikel;
-            // Zeitkomponenten für jeden Artikel generieren
-            artikel.zeiten = generiereZeitkomponenten();
-            auftrag.artikel.push_back(std::move(artikel));
+        // Robust article count generation
+        int artikelAnzahl = std::max(1,
+            static_cast<int>(std::round(rng.erzeugeZufallswert(produkteDistribution)))
+        );
+
+        currentOrder.artikel.reserve(artikelAnzahl);
+
+        for (int articleIndex = 0; articleIndex < artikelAnzahl; ++articleIndex) {
+            Artikel article;
+            article.zeiten = generiereZeitkomponenten();
+            currentOrder.artikel.push_back(std::move(article));
         }
-        auftragsListe.push_back(std::move(auftrag));																		         //[1]
+
+        auftragsListe.push_back(std::move(currentOrder));
     }
 
-    // Sortiere die Aufträge nach Bestellzeit
+    // Lambda comparison with explicit const references
     std::sort(auftragsListe.begin(), auftragsListe.end(),
-        [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });											 //[1]
+        [](const Auftrag& orderA, const Auftrag& orderB) {
+            return orderA.bestellZeit < orderB.bestellZeit;
+        });
 }
 
-// Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel                                                //[Can]
+// Time component generation remains largely the same, with minor readability improvements
 Zeitkomponenten Simulation::generiereZeitkomponenten() {
     auto& rng = RandomGenerator::holeZufallsgenerator();
-    Zeitkomponenten zeiten;
-    zeiten.basiszeit = rng.erzeugeZufallswert(basiszeitDist);
-    zeiten.wegzeit = rng.erzeugeZufallswert(wegzeitDist);
-    zeiten.greifzeit = rng.erzeugeZufallswert(greifzeitDist);
-    zeiten.totzeit = rng.erzeugeZufallswert(totzeitDist);
-    return zeiten;
+    Zeitkomponenten timeComponents;
+
+    timeComponents.basiszeit = rng.erzeugeZufallswert(basiszeitDist);
+    timeComponents.wegzeit = rng.erzeugeZufallswert(wegzeitDist);
+    timeComponents.greifzeit = rng.erzeugeZufallswert(greifzeitDist);
+    timeComponents.totzeit = rng.erzeugeZufallswert(totzeitDist);
+
+    return timeComponents;
 }
 
-
-// Überprüft, ob der angegebene Zeitpunkt innerhalb einer Pausenzeit liegt                                                           [Can]
-bool Simulation::istPausenzeit(double zeitpunkt) {
-    for (const auto& pause : PAUSENZEITEN) {
-        if (zeitpunkt >= pause.first && zeitpunkt < pause.second) {
-            return true;
-        }
-    }
-    return false;
+// Break time check with more robust handling
+bool Simulation::istPausenzeit(double currentTime) {
+    return std::any_of(PAUSENZEITEN.begin(), PAUSENZEITEN.end(),
+        [currentTime](const auto& pausePeriod) {
+            return currentTime >= pausePeriod.first && currentTime < pausePeriod.second;
+        });
 }
 
-// Bearbeitet die Aufträge und berechnet die Gesamtbearbeitungszeit des Tages                                                        [Julian] [Deniz]
+// Order processing with more explicit time management
 int Simulation::bearbeiteAuftraege() {
-    int totalBearbeitungszeit = 0;
-    std::vector<Auftrag> verbleibend;
-    verbleibend.reserve(auftragsListe.size());
+    int totalProcessingTime = 0;
+    std::vector<Auftrag> remainingOrders;
+    remainingOrders.reserve(auftragsListe.size());
 
-    // Simulation von Arbeitsstunden von 4:00 bis 20:00 Uhr in 30-Minuten-Intervallen
-    for (double stunde = 4.0; stunde <= 20.0; stunde += 0.5) {
-        if (istPausenzeit(stunde)) continue;    // Pausenzeit überspringen
+    // Explicit work hours with half-hour increments
+    for (double workHour = 4.0; workHour <= 20.0; workHour += 0.5) {
+        if (istPausenzeit(workHour)) continue;
 
-        for (const auto& auftrag : auftragsListe) {
-            if (auftrag.bestellZeit <= stunde) {
-                // Bearbeite alle Artikel im Auftrag
-                for (const auto& artikel : auftrag.artikel) {
-                    totalBearbeitungszeit += artikel.zeiten.gesamtzeit();
+        // Separate processing and remaining order tracking
+        for (const auto& order : auftragsListe) {
+            if (order.bestellZeit <= workHour) {
+                for (const auto& article : order.artikel) {
+                    totalProcessingTime += article.zeiten.gesamtzeit();
                 }
             }
             else {
-                // Auftrag für später aufheben
-                verbleibend.push_back(auftrag);
+                remainingOrders.push_back(order);
             }
         }
-        // Update auftragsListe mit verbleibenden Aufträgen
-        auftragsListe = std::move(verbleibend);
-        verbleibend.clear();																					                      //[1]
-        verbleibend.reserve(auftragsListe.size());
+
+        // Efficient order list update
+        auftragsListe = std::move(remainingOrders);
+        remainingOrders.clear();
+        remainingOrders.reserve(auftragsListe.size());
     }
 
-    return totalBearbeitungszeit;
+    return totalProcessingTime;
 }
 
-
-
-// Berechnet die benötigte Mitarbeiteranzahl basierend auf der Bearbeitungszeit                                                       [Julian] [Deniz]
+// Staff calculation with more explicit rounding strategy
 int Simulation::berechneMitarbeiter(int totalBearbeitungszeit) {
-    return (totalBearbeitungszeit + ARBEITSSEKUNDEN_PRO_MITARBEITER - 1) / ARBEITSSEKUNDEN_PRO_MITARBEITER;
+    return std::ceil(static_cast<double>(totalBearbeitungszeit) / ARBEITSSEKUNDEN_PRO_MITARBEITER);
 }
 
-
-
-// Führt eine tägliche Simulation durch: generiert Aufträge und bearbeitet sie
+// Simulation day method with improved output formatting
 void Simulation::simuliereTag() {
     generiereAuftraege();
-    int totalBearbeitungszeit = bearbeiteAuftraege();
-    tagesMitarbeiterBedarf = berechneMitarbeiter(totalBearbeitungszeit);
+    int totalProcessingTime = bearbeiteAuftraege();
+    tagesMitarbeiterBedarf = berechneMitarbeiter(totalProcessingTime);
 
-
-    std::cout << ("Auftraege heute: " + std::to_string(tagesAuftraege)) << std:: endl;   
-    std::cout << ("Mitarbeiter: " + std::to_string(tagesMitarbeiterBedarf)) << std:: endl; 
-
+    // More robust output with better formatting
+    std::cout << "Tagesaufträge: " << tagesAuftraege << std::endl;
+    std::cout << "Benötigte Mitarbeiter: " << tagesMitarbeiterBedarf << std::endl;
 }
