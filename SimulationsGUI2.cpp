@@ -286,12 +286,12 @@ void SimulationsGUI::starteSimulation() {
 
     //Speicherortsynchro von .exe und der .txt als auch der.png Datei
     char exeSpeicherOrt[260];   //Standartwert
-    GetModuleFileNameA(NULL, exeSpeicherOrt, 260);
+    GetModuleFileNameA(NULL, exeSpeicherOrt, 260);                                                                                      //[15]
 
 
     std::string Dateinpfad(exeSpeicherOrt);
-    size_t letztesSlash = Dateinpfad.find_last_of("\\/");
-    std::string Verzeichnis = Dateinpfad.substr(0, letztesSlash + 1);
+    size_t letztesSlash = Dateinpfad.find_last_of("\\/");                                                                               //[3]
+    std::string Verzeichnis = Dateinpfad.substr(0, letztesSlash + 1);                                                                   //[1]
 
 
     //Dateienpfadkonstruktion
@@ -313,7 +313,7 @@ void SimulationsGUI::starteSimulation() {
     std::cout << "PNG-Datei wird gespeichert unter: " << PNGDateienpfad << std::endl;
     std::cout << "Protokoll wird gespeichert unter: " << Protokolldateienpfad << "\n\n\n\n" << std::endl;
 
- 
+
 
     //Mitarbeiterbedarf.png / Graph wird direkt geöffnet	
     std::string PNGstarten = "start \"\" \"" + PNGDateienpfad + "\"";//Mitarbeiterbedarf.png / Graph wird direkt geöffnet			    //[4]
