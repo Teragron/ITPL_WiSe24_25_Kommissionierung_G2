@@ -13,7 +13,7 @@ struct Zeitkomponenten {
     int greifzeit;
     int totzeit;
     // Berechnet die Gesamtzeit als Summe aller Zeitkomponenten
-    [[nodiscard]] int gesamtzeit() const {				
+    int gesamtzeit() const {
         return basiszeit + wegzeit + greifzeit + totzeit;
     }
 };
@@ -40,7 +40,7 @@ public:
 
     // Generiert einen Zufallswert basierend auf einer Normalverteilung
     template<typename T>																					        //[3]
-    T erzeugeZufallswert(std::normal_distribution<T> dist) {  
+    T erzeugeZufallswert(std::normal_distribution<T> dist) {
         return std::max(T(1), static_cast<T>(std::round(dist(generator))));
     }
 
@@ -65,14 +65,14 @@ public:
     void simuliereTag();
 
     // Gibt die Anzahl der verbleibenden Aufträge am Tagesende zurück
-    [[nodiscard]] int getVerbleibendeAuftraege() const { return auftragsListe.size(); }								//[5]
+    int getVerbleibendeAuftraege() const { return auftragsListe.size(); }								//[5]
     // Gibt die berechnete Mitarbeiteranzahl für den Tag zurück
-    [[nodiscard]] int getTagesMitarbeiterBedarf() const { return tagesMitarbeiterBedarf; }
+    int getTagesMitarbeiterBedarf() const { return tagesMitarbeiterBedarf; }
 
 private:
     // Pausenzeiten im Format {Startzeit, Endzeit} (in Stunden)
-    static constexpr std::array<std::pair<double, double>, 4> PAUSENZEITEN = { {									//[3]
-        {7.0, 7.5}, {10.0, 10.5}, {15.5, 16.0}, {18.5, 19.0}
+    static constexpr std::array<std::pair<double, double>, 5> PAUSENZEITEN = { {									//[3]
+        {6.5, 7.0}, {09.5, 10.0}, {12.00, 13.00}, {15.0, 15.5}, {17.5, 18.0}
     } };
     // Arbeitssekunden pro Mitarbeiter pro Tag (6,5 Stunden)
     static constexpr int ARBEITSSEKUNDEN_PRO_MITARBEITER = 23400; // 6.5 * 3600										//[3]
@@ -94,13 +94,13 @@ private:
 
 
     // Bearbeitet alle Aufträge und berechnet die Gesamtbearbeitungszeit
-    [[nodiscard]] int bearbeiteAuftraege();
+    int bearbeiteAuftraege();
 
     // Berechnet die benötigte Mitarbeiteranzahl basierend auf der Gesamtbearbeitungszeit
-    [[nodiscard]] static int berechneMitarbeiter(int totalBearbeitungszeit);
+    static int berechneMitarbeiter(int totalBearbeitungszeit);
 
     // Überprüft, ob ein Zeitpunkt in den Pausenzeiten liegt
-    [[nodiscard]] static bool istPausenzeit(double zeitpunkt);
+    static bool istPausenzeit(double zeitpunkt);
 
     // Generiert die Zeitkomponenten für einen Artikel
     Zeitkomponenten generiereZeitkomponenten();
