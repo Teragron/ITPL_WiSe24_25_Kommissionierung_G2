@@ -3,6 +3,8 @@
 #include <iostream>
 
 
+
+
 // Konstruktor für die Simulation-Klasse: Initialisiert die Zufallsverteilungen und Tagesaufträge                                  [Julian]
 Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
     double meanProdukteProAuftrag, double SD_ProdukteProAuftrag,
@@ -38,8 +40,12 @@ void Simulation::generiereAuftraege() {
 
     for (int i = 0; i < tagesAuftraege; ++i) {
         Auftrag auftrag;
-        // Lineare Verteilung der Bestellzeiten
+
+
+
+        //Verteilung der Bestellzeiten
         auftrag.bestellZeit = zeitStart + (zeitEnde - zeitStart) * (static_cast<double>(i) / tagesAuftraege);
+
 
         // Artikel pro Auftrag generieren
         int artikelAnzahl = static_cast<int>(std::max(1.0, std::round(rng.erzeugeZufallswert(produkteDistribution))));
@@ -128,7 +134,7 @@ void Simulation::simuliereTag() {
     tagesMitarbeiterBedarf = berechneMitarbeiter(totalBearbeitungszeit);
 
 
-    std::cout << ("Auftraege heute: " + std::to_string(tagesAuftraege)) << std:: endl;   
-    std::cout << ("Mitarbeiter: " + std::to_string(tagesMitarbeiterBedarf)) << std:: endl; 
+    std::cout << ("Auftraege heute: " + std::to_string(tagesAuftraege)) << std::endl;
+    std::cout << ("Mitarbeiter: " + std::to_string(tagesMitarbeiterBedarf)) << std::endl;
 
 }
