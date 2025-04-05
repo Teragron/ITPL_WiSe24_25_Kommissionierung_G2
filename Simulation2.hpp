@@ -1,10 +1,10 @@
-#pragma once								                                                                        //[3]
-#include <vector> 								                                                                    //[3]
-#include <random>								                                                                    //[3]
-#include <memory>								                                                                    //[3]
-#include <array>								                                                                    //[3]
-#include <chrono>								                                                                    //[3]
-#include <sstream>								                                                                    //[3]
+#pragma once								                                                                        //[13]
+#include <vector> 								                                                                    //[13]
+#include <random>								                                                                    //[13]
+#include <memory>								                                                                    //[13]
+#include <array>								                                                                    //[13]
+#include <chrono>								                                                                    //[13]
+#include <sstream>								                                                                    //[13]
 
 // Struktur zur Speicherung der Zeitkomponenten für die Bearbeitung eines Artikels
 struct Zeitkomponenten {
@@ -13,7 +13,7 @@ struct Zeitkomponenten {
     int greifzeit;
     int totzeit;
     // Berechnet die Gesamtzeit als Summe aller Zeitkomponenten
-    int gesamtzeit() const {
+ int gesamtzeit() const {
         return basiszeit + wegzeit + greifzeit + totzeit;
     }
 };
@@ -39,7 +39,7 @@ public:
     }
 
     // Generiert einen Zufallswert basierend auf einer Normalverteilung
-    template<typename T>																					        //[3]
+    template<typename T>																					        //[13]
     T erzeugeZufallswert(std::normal_distribution<T> dist) {
         return std::max(T(1), static_cast<T>(std::round(dist(generator))));
     }
@@ -47,9 +47,9 @@ public:
 private:
     // Konstruktor initialisiert den Zufallsgenerator mit einem Zeitstempel
     RandomGenerator() {
-        generator.seed(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));     //[3]
+        generator.seed(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));     //[13]
     }
-    std::default_random_engine generator;																		    //[3]
+    std::default_random_engine generator;																		    //[13]
 };
 
 
@@ -65,23 +65,23 @@ public:
     void simuliereTag();
 
     // Gibt die Anzahl der verbleibenden Aufträge am Tagesende zurück
-    int getVerbleibendeAuftraege() const { return auftragsListe.size(); }								//[5]
+    int getVerbleibendeAuftraege() const { return auftragsListe.size(); }								//[6]
     // Gibt die berechnete Mitarbeiteranzahl für den Tag zurück
     int getTagesMitarbeiterBedarf() const { return tagesMitarbeiterBedarf; }
 
 private:
     // Pausenzeiten im Format {Startzeit, Endzeit} (in Stunden)
-    static constexpr std::array<std::pair<double, double>, 5> PAUSENZEITEN = { {									//[3]
+    static constexpr std::array<std::pair<double, double>, 5> PAUSENZEITEN = { {									//[13]
         {6.5, 7.0}, {09.5, 10.0}, {12.00, 13.00}, {15.0, 15.5}, {17.5, 18.0}
     } };
     // Arbeitssekunden pro Mitarbeiter pro Tag (6,5 Stunden)
-    static constexpr int ARBEITSSEKUNDEN_PRO_MITARBEITER = 23400; // 6.5 * 3600										//[3]
+    static constexpr int ARBEITSSEKUNDEN_PRO_MITARBEITER = 23400; // 6.5 * 3600										//[13]
 
     int tagesAuftraege;                     // Anzahl der Tagesaufträge
     int tagesMitarbeiterBedarf;             // Benötigte Mitarbeiteranzahl für den Tag
     std::vector<Auftrag> auftragsListe;     // Liste der Aufträge für den Tag
 
-    std::normal_distribution<double> auftraegeDistribution; // Verteilung für Tagesaufträge							//[3]
+    std::normal_distribution<double> auftraegeDistribution; // Verteilung für Tagesaufträge							//[13]
     std::normal_distribution<double> produkteDistribution;  // Verteilung für Produkte pro Auftrag
     std::normal_distribution<double> basiszeitDist;         // Verteilung für Basiszeit
     std::normal_distribution<double> wegzeitDist;           // Verteilung für Wegzeit
