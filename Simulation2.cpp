@@ -1,5 +1,5 @@
 #include "simulation2.hpp"
-#include <algorithm>									                                                                           //[1]
+#include <algorithm>									                                                                           //[3]
 #include <iostream>
 
 
@@ -19,9 +19,9 @@ Simulation::Simulation(double mean_AuftraegeProTag, double SD_AuftraegeProTag,
 
 
 {
-    auto& rng = RandomGenerator::holeZufallsgenerator();					                                                       //[1]
+    auto& rng = RandomGenerator::holeZufallsgenerator();					                                                       //[3]
 
-    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                     //[1], [3]
+    tagesAuftraege = std::max(0, static_cast<int>(std::round(rng.erzeugeZufallswert(auftraegeDistribution))));                     //[3], [13]
     // Berechne tagesAuftraege basierend auf einer normalverteilten Zufallszahl						       
 
     tagesAuftraege += verbleibendeAuftraege;    // Füge verbleibende Aufträge hinzu
@@ -49,7 +49,7 @@ void Simulation::generiereAuftraege() {
 
         // Artikel pro Auftrag generieren
         int artikelAnzahl = static_cast<int>(std::max(1.0, std::round(rng.erzeugeZufallswert(produkteDistribution))));
-        auftrag.artikel.reserve(artikelAnzahl); // Speicher für Artikel reservieren													 //[3]
+        auftrag.artikel.reserve(artikelAnzahl); // Speicher für Artikel reservieren													 //[13]
 
         for (int j = 0; j < artikelAnzahl; ++j) {
             Artikel artikel;
@@ -57,12 +57,12 @@ void Simulation::generiereAuftraege() {
             artikel.zeiten = generiereZeitkomponenten();
             auftrag.artikel.push_back(std::move(artikel));
         }
-        auftragsListe.push_back(std::move(auftrag));																		         //[1]
+        auftragsListe.push_back(std::move(auftrag));																		         //[3]
     }
 
     // Sortiere die Aufträge nach Bestellzeit
     std::sort(auftragsListe.begin(), auftragsListe.end(),
-        [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });											 //[1]
+        [](const Auftrag& a, const Auftrag& b) { return a.bestellZeit < b.bestellZeit; });											 //[3]
 }
 
 // Generiert die Zeitkomponenten (Basis-, Weg-, Greif- und Totzeit) für einen Artikel                                                //[Can]
@@ -111,7 +111,7 @@ int Simulation::bearbeiteAuftraege() {
         }
         // Update auftragsListe mit verbleibenden Aufträgen
         auftragsListe = std::move(verbleibend);
-        verbleibend.clear();																					                      //[1]
+        verbleibend.clear();																					                      //[3]
         verbleibend.reserve(auftragsListe.size());
     }
 
